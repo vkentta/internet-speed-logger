@@ -1,0 +1,21 @@
+{
+  "name": "speedtest-logger",
+  "version": "1.0.0",
+  "description": "Perform periodical internet speed tests and store the results",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "speedtest",
+    "internet"
+  ],
+  "author": "vkentta",
+  "license": "MIT",
+  "dependencies": {
+    "fast-speedtest-api": "^0.3.2",
+    "fs-extra": "^7.0.1",
+    "speedtest-net": "^1.4.4"
+  }
+}

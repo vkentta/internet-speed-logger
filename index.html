@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Speedtest results</title>
+        <style>
+            body {
+                font-family: "sans-serif";
+                text-align: center;
+                background-color: #FAFAFA;
+            }
+            #canvas_container {
+                margin: 0 auto;
+                max-width: calc(100vh - 50px);
+                max-height: calc(100vw - 50px);
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <label for="log_file_selector">Log file</label>
+            <select id="log_file_selector" name="log_file_selector">
+                <option value="" selected>Select log file</option>
+            </select>
+        </div>
+
+        <div id="canvas_container">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+        <script src="conf.js"></script>
+        <script>
+            const conf = speedTestLogger.getConf();
+            const LOCAL_STORAGE_KEY = 'previous_log';
+            const previouslySelectedLog = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+            fetch(`${conf.LOG_DIR_NAME}/${conf.LOG_FILE_LIST_FILE_NAME}`)
+                .then(data => data.json())
+                .then(logFileList => createLogNavigation(logFileList));
+
+            fechAndDrawPreviouslySelectedLog();
+
+            function createLogNavigation(logFileList) {
+                const logFileSelector = document.querySelector('#log_file_selector');
+                logFileList.forEach(logFile => {
+                    const selectorItem = document.createElement('option');
+                    selectorItem.text = logFile;
+                    selectorItem.value = logFile;
+                    logFileSelector.appendChild(selectorItem);
+                });
+                logFileSelector.addEventListener('change', e => selectLogFile(e.target.value));
+
+                if (previouslySelectedLog) {
+                    logFileSelector.value = previouslySelectedLog;
+                }
+            }
+
+            function selectLogFile(logFile) {
+                localStorage.setItem(LOCAL_STORAGE_KEY, logFile);
+                fecthAndDrawLog(logFile);
+            }
+
+            function fechAndDrawPreviouslySelectedLog() {
+                if (previouslySelectedLog) {
+                    fecthAndDrawLog(previouslySelectedLog);
+                }
+            }
+
+            function fecthAndDrawLog(logFile) {
+                fetch(`${conf.LOG_DIR_NAME}/${logFile}`)
+                    .then(data => data.json())
+                    .then(results => drawGraph(results));
+            }
+
+            function drawGraph(results) {
+                const downloadResults = results.map(result => ({x: new Date(result.date), y: result.speed.downloadMbps}));
+                const uploadResults = results.map(result => ({x: new Date(result.date), y: result.speed.uploadMbps}));
+
+                const ctx = document.getElementById("myChart").getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: 'Download (Mb/s)',
+                            borderColor: 'hsl(110, 100%, 60%)',
+                            data: downloadResults,
+                            fill: false
+                        },{
+                            label: 'Upload (Mb/s)',
+                            borderColor: 'hsl(10, 100%, 60%)',
+                            data: uploadResults,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                time: {
+                                    unit: 'day',
+                                    isoWeekday: true
+                                }
+                            }],
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
