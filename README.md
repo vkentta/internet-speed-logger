@@ -2,6 +2,8 @@
 Run internet speed tests periodically.
 The tests are run every 15 minutes, using [speedtest-net](https://www.npmjs.com/package/speedtest-net) and [fast-speedtest-api](https://www.npmjs.com/package/fast-speedtest-api) npm packages (taking turns between packages). The results are stored as json locally and can be displayed with included html-file.
 
+![Internet speed history graph](screenshot.png)
+
 ### Requirements:
 Node.js
 
