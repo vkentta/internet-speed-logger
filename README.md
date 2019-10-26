@@ -13,7 +13,7 @@ Node.js / Docker
 ``npm start``
 
 ### Running with Docker
-``docker run -v \`pwd\`:"/usr/src/app/data" -p 3000:3000 --name internet-speed-logger --restart always vkentta/internet-speed-logger``
+``docker run -v `pwd`:"/usr/src/app/data" -p 3000:3000 --name internet-speed-logger --restart always vkentta/internet-speed-logger``
 
 The database file will be added to / used from the directory you run the above command in.
 
