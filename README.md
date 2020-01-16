@@ -17,6 +17,14 @@ Node.js / Docker
 
 The database file will be added to / used from the directory you run the above command in.
 
+##### Building with docker
+
+``docker build -t your-custom-tagname .``
+
+##### Running your own image
+
+``docker run -v `pwd`:"/usr/src/app/data" -p 3000:3000 --name internet-speed-logger --restart always your-custom-tagname``
+
 ### Displaying speed test results:
 After the speed tests have been running for a while, go to [localhost:3000](http://localhost:3000).
 
