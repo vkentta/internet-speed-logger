@@ -1,6 +1,6 @@
 {
   "name": "internet-speed-logger",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Perform periodical internet speed tests and store the results",
   "main": "index.js",
   "scripts": {

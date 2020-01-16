@@ -4,7 +4,8 @@ const database = require("./database");
 const startServer = require("./server");
 
 const MS_IN_MIN = 1000 * 60;
-const CHECK_PERIOD = MS_IN_MIN * 15;
+const CHECK_PERIOD_MINUTES = process.env.CHECK_PERIOD_MINUTES || 15;
+const CHECK_PERIOD = MS_IN_MIN * CHECK_PERIOD_MINUTES;
 
 database.createTables();
 
@@ -12,6 +13,7 @@ startServer();
 checkAndLogInternetSpeedPeriodically();
 
 function checkAndLogInternetSpeedPeriodically() {
+  console.log(`Checking internet speed on ${CHECK_PERIOD_MINUTES} minute interval...`)
   checkAndLogInternetSpeed();
   setInterval(checkAndLogInternetSpeed, CHECK_PERIOD);
 }
