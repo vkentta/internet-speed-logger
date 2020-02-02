@@ -1,1 +1,0 @@
-Your speed measurement logs will be stored here

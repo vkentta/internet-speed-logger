@@ -1,7 +1,6 @@
-const checkInternetSpeed = require("./speedMeasurement");
-const writeLogToConsole = require("./console");
-const database = require("./database");
-const startServer = require("./server");
+const checkInternetSpeed = require("./src/speedMeasurement");
+const database = require("./src/database");
+const startServer = require("./src/server");
 
 const MS_IN_MIN = 1000 * 60;
 const CHECK_PERIOD_MINUTES = process.env.CHECK_PERIOD_MINUTES || 15;
@@ -13,17 +12,35 @@ startServer();
 checkAndLogInternetSpeedPeriodically();
 
 function checkAndLogInternetSpeedPeriodically() {
-  console.log(`Checking internet speed on ${CHECK_PERIOD_MINUTES} minute interval...`)
+  writeIntervalToConsole(CHECK_PERIOD_MINUTES);
   checkAndLogInternetSpeed();
   setInterval(checkAndLogInternetSpeed, CHECK_PERIOD);
 }
 
 async function checkAndLogInternetSpeed() {
-  const speedTestResult = await checkInternetSpeed();
-  writeLogToConsole(speedTestResult);
-  database.addSpeedMeasurement(
-    speedTestResult.package,
-    speedTestResult.speed.downloadMbps,
-    speedTestResult.speed.uploadMbps
+  try {
+    const speedTestResult = await checkInternetSpeed();
+    writeLogToConsole(speedTestResult);
+    database.addSpeedMeasurement(
+      speedTestResult.package,
+      speedTestResult.speed.downloadMbps,
+      speedTestResult.speed.uploadMbps
+    );
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function writeIntervalToConsole(interval) {
+  console.log(`Checking internet speed on ${interval} minute interval...`);
+  console.log("--------------------------------------------------");
+}
+
+function writeLogToConsole(speedTestResult) {
+  console.log(new Date().toISOString());
+  console.log(`package: ${speedTestResult.package}`);
+  console.log(
+    `DL: ${speedTestResult.speed.downloadMbps} Mb/s, UL: ${speedTestResult.speed.uploadMbps} Mb/s`
   );
+  console.log("--------------------------------------------------");
 }

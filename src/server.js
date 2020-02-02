@@ -3,7 +3,7 @@ const url = require("url");
 const fs = require("fs");
 const database = require("./database");
 
-function startServer() {
+module.exports = function startServer() {
   http
     .createServer(async (req, res) => {
       const reqUrl = url.parse(req.url, true);
@@ -36,6 +36,4 @@ function startServer() {
       }
     })
     .listen(3000);
-}
-
-module.exports = startServer;
+};
