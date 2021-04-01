@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speedtest results</title>
+  <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css" />
+  <style>
+    body {
+      font-family: Sans-Serif;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    #date_range {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .date_range,
+    button {
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .date_range {
+      border: 1px dashed rgba(0, 0, 0, 0.6);
+      display: inline-block;
+      margin: 4px 0;
+    }
+
+    #canvas_container {
+      margin: 0 auto;
+      max-width: calc(100vh - 50px);
+      max-height: calc(100vw - 50px);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="date_range">
+    <div>Show speedtest logs</div>
+    <div>&NonBreakingSpace;from <span id="date_range_start" class="date_range">XXXX-XX-XX</span> to <span id="date_range_end" class="date_range">XXXX-XX-XX</span>&NonBreakingSpace;</div>
+    <button id="fetch_logs_button">Update &#8635;</button>
+  </div>
+
+  <div id="canvas_container">
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </div>
+
+  <script src="https://unpkg.com/js-datepicker"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+  <script src="ui.js"></script>
+  <script>
+  </script>
+</body>
+
+</html>

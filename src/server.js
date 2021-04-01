@@ -18,17 +18,9 @@ module.exports = function startServer() {
         res.write(JSON.stringify(measurements));
         res.end();
       } else if (reqUrl.pathname === "/") {
-        fs.readFile("./index.html", function(error, content) {
-          if (error) {
-            console.log(error);
-            res.writeHead(500, { "Content-Type": "text/html" });
-            res.write("500 :(");
-          } else {
-            res.writeHead(200, { "Content-Type": "text/html" });
-            res.write(content, "utf-8");
-          }
-          res.end();
-        });
+        respondWithFileInPath(res, "./ui/index.html", "text/html");
+      } else if (reqUrl.pathname === "/ui.js") {
+        respondWithFileInPath(res, "./ui/ui.js", "application/javascript");
       } else {
         res.writeHead(404, { "Content-Type": "text/html" });
         res.write("404 :(");
@@ -37,3 +29,17 @@ module.exports = function startServer() {
     })
     .listen(3000);
 };
+
+function respondWithFileInPath(response, path, contentType) {
+  fs.readFile(path, function(error, content) {
+    if (error) {
+      console.log(error);
+      response.writeHead(500, { "Content-Type": "text/html" });
+      response.write("500 :(");
+    } else {
+      response.writeHead(200, { "Content-Type": contentType });
+      response.write(content, "utf-8");
+    }
+    response.end();
+  });
+}
