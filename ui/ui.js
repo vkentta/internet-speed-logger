@@ -71,7 +71,7 @@ function getDateRangeFromQueryOrDefault() {
 }
 
 function dateToISOStringDate(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return date.toISOString().split('T')[0];
 }
 
 function fecthAndDrawLog(dateRange) {
