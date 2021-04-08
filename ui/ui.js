@@ -70,7 +70,8 @@ function getDateRangeFromQueryOrDefault() {
     return dateRange;
 }
 
-function dateToISOStringDate(date) {
+function dateToISOStringDate(originalDate) {
+    const date = new Date(originalDate.getFullYear() + '-' + (originalDate.getMonth() + 1) + '-' + originalDate.getDate());
     return date.toISOString().split('T')[0];
 }
 
