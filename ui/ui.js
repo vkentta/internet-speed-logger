@@ -70,9 +70,12 @@ function getDateRangeFromQueryOrDefault() {
     return dateRange;
 }
 
-function dateToISOStringDate(originalDate) {
-    const date = new Date(originalDate.getFullYear() + '-' + (originalDate.getMonth() + 1) + '-' + originalDate.getDate());
-    return date.toISOString().split('T')[0];
+function dateToISOStringDate(date) {
+    return date.getFullYear() + '-' + leftPad(date.getMonth() + 1) + '-' + leftPad(date.getDate());
+}
+
+function leftPad(number) {
+    return ('0' + number).substr(-2);
 }
 
 function fecthAndDrawLog(dateRange) {
