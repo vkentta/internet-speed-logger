@@ -16,6 +16,6 @@
   "license": "MIT",
   "dependencies": {
     "fast-speedtest-api": "^0.3.2",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.2.0"
   }
 }
